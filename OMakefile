@@ -1,0 +1,17 @@
+NATIVE_ENABLED = true
+BYTE_ENABLED = false
+USE_OCAMLFIND = true
+OCAMLFLAGS += -dtypes -w ysp
+OCAMLPACKS[] += str util
+
+.PHONY: clean submit
+clean:
+  rm -f \
+     $(filter-proper-targets $(glob $(addsuffix .*, $(FILES)))) \
+     $(PROGRAM).run $(PROGRAM).opt \
+     *.annot *.cmx *.omc *.o *.cmo
+
+submit:
+  zip -r submit.zip OMakefile OMakeroot */OMakefile main.sh */*.ml */*.mli
+
+.SUBDIRS: solve shorten aggregate
